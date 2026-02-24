@@ -1,0 +1,22 @@
+{
+  "name": "mini-project-bullmq",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "node server.js",
+    "worker": "node worker.js",
+    "dashboard": "node dashboard.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@bull-board/api": "^6.19.0",
+    "@bull-board/express": "^6.19.0",
+    "bullmq": "^5.70.0",
+    "express": "^5.2.1",
+    "sharp": "^0.34.5",
+    "uuid": "^13.0.0"
+  }
+}

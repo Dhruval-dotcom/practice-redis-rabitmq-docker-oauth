@@ -1,0 +1,328 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 920" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f1724"/>
+      <stop offset="100%" style="stop-color:#1a2740"/>
+    </linearGradient>
+    <linearGradient id="dockerfileGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f7931e"/>
+      <stop offset="100%" style="stop-color:#e8820d"/>
+    </linearGradient>
+    <linearGradient id="imageGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2496ed"/>
+      <stop offset="100%" style="stop-color:#1a7fd4"/>
+    </linearGradient>
+    <linearGradient id="containerGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#00c853"/>
+      <stop offset="100%" style="stop-color:#00a844"/>
+    </linearGradient>
+    <linearGradient id="hubGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#9c27b0"/>
+      <stop offset="100%" style="stop-color:#7b1fa2"/>
+    </linearGradient>
+    <linearGradient id="composeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#e91e63"/>
+      <stop offset="100%" style="stop-color:#c2185b"/>
+    </linearGradient>
+    <linearGradient id="volumeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff9800"/>
+      <stop offset="100%" style="stop-color:#ef6c00"/>
+    </linearGradient>
+    <linearGradient id="networkGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#00bcd4"/>
+      <stop offset="100%" style="stop-color:#0097a7"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="920" fill="url(#bgGrad)" rx="16"/>
+
+  <!-- Title -->
+  <text x="600" y="52" text-anchor="middle" fill="#ffffff" font-size="28" font-weight="700" letter-spacing="1">Docker Core Concepts — The Big Picture</text>
+  <text x="600" y="78" text-anchor="middle" fill="#8899bb" font-size="14">How everything connects: from writing code to running containers</text>
+
+  <!-- ======================== -->
+  <!-- ROW 1: THE BUILD FLOW   -->
+  <!-- ======================== -->
+
+  <!-- DOCKERFILE (left) -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="120" width="250" height="150" rx="14" fill="url(#dockerfileGrad)"/>
+    <rect x="40" y="120" width="250" height="40" rx="14" fill="rgba(0,0,0,0.15)"/>
+    <text x="165" y="147" text-anchor="middle" fill="#fff" font-size="17" font-weight="700">DOCKERFILE</text>
+    <text x="165" y="147" text-anchor="middle" fill="#fff" font-size="10" dy="18">Writing the recipe</text>
+
+    <!-- Code lines inside -->
+    <text x="58" y="200" fill="#fff3e0" font-size="11" font-family="Consolas, monospace">FROM node:20-alpine</text>
+    <text x="58" y="216" fill="#fff3e0" font-size="11" font-family="Consolas, monospace">COPY package.json .</text>
+    <text x="58" y="232" fill="#fff3e0" font-size="11" font-family="Consolas, monospace">RUN npm install</text>
+    <text x="58" y="248" fill="#fff3e0" font-size="11" font-family="Consolas, monospace">CMD ["node","app.js"]</text>
+  </g>
+
+  <!-- Arrow: Dockerfile → Image -->
+  <g>
+    <line x1="290" y1="195" x2="395" y2="195" stroke="#f7931e" stroke-width="3" stroke-dasharray="8,4"/>
+    <polygon points="395,189 410,195 395,201" fill="#f7931e"/>
+    <rect x="310" y="173" width="75" height="20" rx="4" fill="rgba(247,147,30,0.2)"/>
+    <text x="347" y="187" text-anchor="middle" fill="#f7931e" font-size="11" font-weight="600">docker build</text>
+  </g>
+
+  <!-- IMAGE (center) -->
+  <g filter="url(#shadow)">
+    <rect x="410" y="120" width="270" height="150" rx="14" fill="url(#imageGrad)"/>
+    <rect x="410" y="120" width="270" height="40" rx="14" fill="rgba(0,0,0,0.15)"/>
+    <text x="545" y="147" text-anchor="middle" fill="#fff" font-size="17" font-weight="700">IMAGE</text>
+    <text x="545" y="147" text-anchor="middle" fill="#fff" font-size="10" dy="18">The recipe — read-only blueprint</text>
+
+    <!-- Layers inside (concept #10) -->
+    <rect x="428" y="185" width="234" height="22" rx="4" fill="rgba(255,255,255,0.12)"/>
+    <text x="545" y="200" text-anchor="middle" fill="#bbdefb" font-size="11">Layer 1: Base OS (Alpine Linux)</text>
+    <rect x="428" y="211" width="234" height="22" rx="4" fill="rgba(255,255,255,0.18)"/>
+    <text x="545" y="226" text-anchor="middle" fill="#bbdefb" font-size="11">Layer 2: Node.js 20 runtime</text>
+    <rect x="428" y="237" width="234" height="22" rx="4" fill="rgba(255,255,255,0.24)"/>
+    <text x="545" y="252" text-anchor="middle" fill="#e3f2fd" font-size="11">Layer 3: Your app code + deps</text>
+  </g>
+
+  <!-- TAG label on image (concept #9) -->
+  <g>
+    <rect x="620" y="108" width="80" height="24" rx="12" fill="#ffca28" filter="url(#shadow)"/>
+    <text x="660" y="124" text-anchor="middle" fill="#1a1a1a" font-size="11" font-weight="700">TAG: v2.1</text>
+  </g>
+
+  <!-- Layer label -->
+  <g>
+    <rect x="668" y="220" width="68" height="22" rx="11" fill="rgba(255,255,255,0.1)" stroke="#64b5f6" stroke-width="1"/>
+    <text x="702" y="235" text-anchor="middle" fill="#90caf9" font-size="10" font-weight="600">LAYERS</text>
+  </g>
+
+  <!-- Arrow: Image → Container -->
+  <line x1="680" y1="195" x2="785" y2="195" stroke="#2496ed" stroke-width="3" stroke-dasharray="8,4"/>
+  <polygon points="785,189 800,195 785,201" fill="#2496ed"/>
+  <rect x="700" y="173" width="70" height="20" rx="4" fill="rgba(36,150,237,0.2)"/>
+  <text x="735" y="187" text-anchor="middle" fill="#64b5f6" font-size="11" font-weight="600">docker run</text>
+
+  <!-- CONTAINER (right) -->
+  <g filter="url(#shadow)">
+    <rect x="800" y="120" width="360" height="150" rx="14" fill="url(#containerGrad)"/>
+    <rect x="800" y="120" width="360" height="40" rx="14" fill="rgba(0,0,0,0.15)"/>
+    <text x="980" y="147" text-anchor="middle" fill="#fff" font-size="17" font-weight="700">CONTAINER</text>
+    <text x="980" y="147" text-anchor="middle" fill="#fff" font-size="10" dy="18">The cooked dish — your app running live</text>
+
+    <!-- Inside container visualization -->
+    <rect x="818" y="185" width="155" height="68" rx="8" fill="rgba(0,0,0,0.2)"/>
+    <text x="895" y="203" text-anchor="middle" fill="#c8e6c9" font-size="11" font-weight="600">Express API</text>
+    <text x="895" y="220" text-anchor="middle" fill="#a5d6a7" font-size="10">node app.js</text>
+    <text x="895" y="240" text-anchor="middle" fill="#81c784" font-size="10">Running on :5000</text>
+
+    <rect x="985" y="185" width="155" height="68" rx="8" fill="rgba(0,0,0,0.2)"/>
+    <text x="1063" y="203" text-anchor="middle" fill="#c8e6c9" font-size="11" font-weight="600">React App</text>
+    <text x="1063" y="220" text-anchor="middle" fill="#a5d6a7" font-size="10">npm run dev</text>
+    <text x="1063" y="240" text-anchor="middle" fill="#81c784" font-size="10">Running on :3000</text>
+  </g>
+
+  <!-- ============================== -->
+  <!-- ROW 2: DOCKER HUB / REGISTRY   -->
+  <!-- ============================== -->
+
+  <g filter="url(#shadow)">
+    <rect x="40" y="310" width="250" height="110" rx="14" fill="url(#hubGrad)"/>
+    <rect x="40" y="310" width="250" height="40" rx="14" fill="rgba(0,0,0,0.15)"/>
+    <text x="165" y="337" text-anchor="middle" fill="#fff" font-size="17" font-weight="700">DOCKER HUB / REGISTRY</text>
+    <text x="165" y="337" text-anchor="middle" fill="#fff" font-size="10" dy="18">App Store for images</text>
+
+    <text x="58" y="385" fill="#e1bee7" font-size="12">node:20  mysql:8  nginx</text>
+    <text x="58" y="403" fill="#ce93d8" font-size="11">Pull official images or push your own</text>
+  </g>
+
+  <!-- Arrow: Hub → Image (pull) -->
+  <line x1="290" y1="350" x2="440" y2="270" stroke="#9c27b0" stroke-width="2.5" stroke-dasharray="6,4"/>
+  <polygon points="436,276 450,265 442,280" fill="#9c27b0"/>
+  <rect x="330" y="290" width="75" height="20" rx="4" fill="rgba(156,39,176,0.2)"/>
+  <text x="367" y="304" text-anchor="middle" fill="#ce93d8" font-size="11" font-weight="600">docker pull</text>
+
+  <!-- Arrow: Image → Hub (push) -->
+  <line x1="440" y1="260" x2="290" y2="340" stroke="#9c27b0" stroke-width="2" stroke-dasharray="4,6" opacity="0.5"/>
+  <rect x="330" y="315" width="78" height="20" rx="4" fill="rgba(156,39,176,0.15)"/>
+  <text x="369" y="329" text-anchor="middle" fill="#ab7ebf" font-size="10" font-weight="600">docker push</text>
+
+  <!-- ========================================== -->
+  <!-- ROW 2 RIGHT: PORT MAPPING                  -->
+  <!-- ========================================== -->
+
+  <g filter="url(#shadow)">
+    <rect x="800" y="310" width="360" height="110" rx="14" fill="#37474f"/>
+    <rect x="800" y="310" width="360" height="38" rx="14" fill="rgba(0,0,0,0.2)"/>
+    <text x="980" y="335" text-anchor="middle" fill="#fff" font-size="17" font-weight="700">PORT MAPPING</text>
+    <text x="980" y="335" text-anchor="middle" fill="#fff" font-size="10" dy="18">Doorbell wiring — connects outside to inside</text>
+
+    <!-- Port mapping visual -->
+    <rect x="825" y="368" width="120" height="36" rx="6" fill="rgba(255,255,255,0.08)" stroke="#78909c" stroke-width="1"/>
+    <text x="885" y="383" text-anchor="middle" fill="#b0bec5" font-size="10">YOUR BROWSER</text>
+    <text x="885" y="397" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">localhost:8080</text>
+
+    <line x1="945" y1="386" x2="1005" y2="386" stroke="#80cbc4" stroke-width="2.5"/>
+    <polygon points="1005,381 1017,386 1005,391" fill="#80cbc4"/>
+    <text x="975" y="378" text-anchor="middle" fill="#80cbc4" font-size="10">-p 8080:3000</text>
+
+    <rect x="1018" y="368" width="120" height="36" rx="6" fill="rgba(0,230,118,0.1)" stroke="#00e676" stroke-width="1"/>
+    <text x="1078" y="383" text-anchor="middle" fill="#69f0ae" font-size="10">CONTAINER</text>
+    <text x="1078" y="397" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">port 3000</text>
+  </g>
+
+  <!-- Arrow from container to port mapping -->
+  <line x1="980" y1="270" x2="980" y2="310" stroke="#546e7a" stroke-width="2" stroke-dasharray="4,3"/>
+
+  <!-- ================================== -->
+  <!-- ROW 3: DOCKER COMPOSE              -->
+  <!-- ================================== -->
+
+  <g filter="url(#shadow)">
+    <rect x="40" y="460" width="1120" height="190" rx="14" fill="#1e1e2e" stroke="#e91e63" stroke-width="2"/>
+    <rect x="40" y="460" width="1120" height="42" rx="14" fill="url(#composeGrad)"/>
+    <text x="600" y="487" text-anchor="middle" fill="#fff" font-size="17" font-weight="700">DOCKER COMPOSE  (docker-compose.yml)</text>
+    <text x="600" y="487" text-anchor="middle" fill="#fff" font-size="10" dy="16">Full meal plan — orchestrates multiple containers with one command: docker compose up</text>
+
+    <!-- Three service boxes inside compose -->
+    <!-- React -->
+    <rect x="75" y="525" width="300" height="105" rx="10" fill="rgba(97,218,251,0.08)" stroke="#61dafb" stroke-width="1.5"/>
+    <circle cx="100" cy="545" r="10" fill="#61dafb"/>
+    <text x="104" y="549" text-anchor="middle" fill="#1e1e2e" font-size="11" font-weight="800">R</text>
+    <text x="135" y="549" fill="#61dafb" font-size="14" font-weight="700">React Frontend</text>
+    <text x="88" y="572" fill="#8899aa" font-size="11" font-family="Consolas, monospace">build: ./frontend</text>
+    <text x="88" y="589" fill="#8899aa" font-size="11" font-family="Consolas, monospace">ports: "3000:3000"</text>
+    <text x="88" y="606" fill="#8899aa" font-size="11" font-family="Consolas, monospace">depends_on: [backend]</text>
+    <text x="88" y="623" fill="#556677" font-size="10">Container 1</text>
+
+    <!-- Express -->
+    <rect x="420" y="525" width="300" height="105" rx="10" fill="rgba(104,159,56,0.08)" stroke="#689f38" stroke-width="1.5"/>
+    <circle cx="445" cy="545" r="10" fill="#689f38"/>
+    <text x="449" y="549" text-anchor="middle" fill="#fff" font-size="11" font-weight="800">E</text>
+    <text x="480" y="549" fill="#8bc34a" font-size="14" font-weight="700">Express Backend</text>
+    <text x="433" y="572" fill="#8899aa" font-size="11" font-family="Consolas, monospace">build: ./backend</text>
+    <text x="433" y="589" fill="#8899aa" font-size="11" font-family="Consolas, monospace">ports: "5000:5000"</text>
+    <text x="433" y="606" fill="#8899aa" font-size="11" font-family="Consolas, monospace">depends_on: [db]</text>
+    <text x="433" y="623" fill="#556677" font-size="10">Container 2</text>
+
+    <!-- MySQL -->
+    <rect x="765" y="525" width="370" height="105" rx="10" fill="rgba(0,121,191,0.08)" stroke="#0079bf" stroke-width="1.5"/>
+    <circle cx="790" cy="545" r="10" fill="#0079bf"/>
+    <text x="794" y="549" text-anchor="middle" fill="#fff" font-size="11" font-weight="800">M</text>
+    <text x="822" y="549" fill="#4fc3f7" font-size="14" font-weight="700">MySQL Database</text>
+    <text x="778" y="572" fill="#8899aa" font-size="11" font-family="Consolas, monospace">image: mysql:8</text>
+    <text x="778" y="589" fill="#8899aa" font-size="11" font-family="Consolas, monospace">environment: MYSQL_ROOT_PASSWORD</text>
+    <text x="778" y="606" fill="#8899aa" font-size="11" font-family="Consolas, monospace">volumes: [mysql-data]</text>
+    <text x="778" y="623" fill="#556677" font-size="10">Container 3</text>
+
+    <!-- Connecting arrows between services -->
+    <line x1="375" y1="577" x2="420" y2="577" stroke="#546e7a" stroke-width="2"/>
+    <polygon points="416,573 424,577 416,581" fill="#546e7a"/>
+    <line x1="720" y1="577" x2="765" y2="577" stroke="#546e7a" stroke-width="2"/>
+    <polygon points="761,573 769,577 761,581" fill="#546e7a"/>
+  </g>
+
+  <!-- ================================== -->
+  <!-- ROW 4: VOLUME + NETWORK            -->
+  <!-- ================================== -->
+
+  <!-- VOLUME -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="690" width="530" height="195" rx="14" fill="#2e2e3e"/>
+    <rect x="40" y="690" width="530" height="40" rx="14" fill="url(#volumeGrad)"/>
+    <text x="305" y="717" text-anchor="middle" fill="#fff" font-size="17" font-weight="700">VOLUME</text>
+    <text x="305" y="717" text-anchor="middle" fill="#fff" font-size="10" dy="17">USB drive — data persists even if container dies</text>
+
+    <!-- Volume visual -->
+    <!-- Container box -->
+    <rect x="65" y="755" width="200" height="80" rx="8" fill="rgba(0,230,118,0.06)" stroke="#4caf50" stroke-width="1" stroke-dasharray="5,3"/>
+    <text x="165" y="775" text-anchor="middle" fill="#81c784" font-size="12" font-weight="600">MySQL Container</text>
+    <text x="165" y="795" text-anchor="middle" fill="#607d8b" font-size="11">/var/lib/mysql</text>
+    <text x="165" y="825" text-anchor="middle" fill="#ef5350" font-size="10">Container removed? No problem!</text>
+
+    <!-- Arrow between -->
+    <line x1="265" y1="795" x2="325" y2="795" stroke="#ff9800" stroke-width="2.5"/>
+    <polygon points="321,790 333,795 321,800" fill="#ff9800"/>
+    <text x="295" y="788" text-anchor="middle" fill="#ffb74d" font-size="10">synced</text>
+
+    <!-- Volume storage -->
+    <rect x="335" y="755" width="210" height="80" rx="8" fill="rgba(255,152,0,0.1)" stroke="#ff9800" stroke-width="1.5"/>
+    <text x="440" y="775" text-anchor="middle" fill="#ffb74d" font-size="12" font-weight="700">mysql-data</text>
+    <text x="440" y="795" text-anchor="middle" fill="#8899aa" font-size="11">Named Volume</text>
+    <text x="440" y="815" text-anchor="middle" fill="#66bb6a" font-size="11">Data survives forever</text>
+    <text x="440" y="832" text-anchor="middle" fill="#546e7a" font-size="10">Stored on host (Docker manages)</text>
+
+    <!-- Bind mount note -->
+    <text x="65" y="860" fill="#78909c" font-size="11">Bind mount: ./src:/app/src  (for dev — live code editing)</text>
+    <text x="65" y="876" fill="#78909c" font-size="11">Named volume: db-data:/var/lib/mysql  (for databases)</text>
+  </g>
+
+  <!-- NETWORK -->
+  <g filter="url(#shadow)">
+    <rect x="600" y="690" width="560" height="195" rx="14" fill="#2e2e3e"/>
+    <rect x="600" y="690" width="560" height="40" rx="14" fill="url(#networkGrad)"/>
+    <text x="880" y="717" text-anchor="middle" fill="#fff" font-size="17" font-weight="700">NETWORK</text>
+    <text x="880" y="717" text-anchor="middle" fill="#fff" font-size="10" dy="17">Private LAN — containers talk by service name</text>
+
+    <!-- Network visual: three containers on a network bus -->
+    <!-- Network line/bus -->
+    <line x1="660" y1="810" x2="1110" y2="810" stroke="#00bcd4" stroke-width="3" opacity="0.6"/>
+    <text x="885" y="830" text-anchor="middle" fill="#4dd0e1" font-size="11" font-weight="600">my-app_default network</text>
+
+    <!-- React node -->
+    <rect x="660" y="755" width="120" height="45" rx="8" fill="rgba(97,218,251,0.1)" stroke="#61dafb" stroke-width="1.5"/>
+    <text x="720" y="778" text-anchor="middle" fill="#61dafb" font-size="12" font-weight="600">frontend</text>
+    <text x="720" y="793" text-anchor="middle" fill="#607d8b" font-size="10">:3000</text>
+    <line x1="720" y1="800" x2="720" y2="810" stroke="#61dafb" stroke-width="2"/>
+    <circle cx="720" cy="810" r="5" fill="#61dafb"/>
+
+    <!-- Express node -->
+    <rect x="825" y="755" width="120" height="45" rx="8" fill="rgba(104,159,56,0.1)" stroke="#689f38" stroke-width="1.5"/>
+    <text x="885" y="778" text-anchor="middle" fill="#8bc34a" font-size="12" font-weight="600">backend</text>
+    <text x="885" y="793" text-anchor="middle" fill="#607d8b" font-size="10">:5000</text>
+    <line x1="885" y1="800" x2="885" y2="810" stroke="#689f38" stroke-width="2"/>
+    <circle cx="885" cy="810" r="5" fill="#689f38"/>
+
+    <!-- MySQL node -->
+    <rect x="990" y="755" width="120" height="45" rx="8" fill="rgba(0,121,191,0.1)" stroke="#0079bf" stroke-width="1.5"/>
+    <text x="1050" y="778" text-anchor="middle" fill="#4fc3f7" font-size="12" font-weight="600">db</text>
+    <text x="1050" y="793" text-anchor="middle" fill="#607d8b" font-size="10">:3306</text>
+    <line x1="1050" y1="800" x2="1050" y2="810" stroke="#0079bf" stroke-width="2"/>
+    <circle cx="1050" cy="810" r="5" fill="#0079bf"/>
+
+    <!-- Communication examples -->
+    <text x="625" y="856" fill="#80cbc4" font-size="11">backend connects to db using hostname "db" (not an IP!)</text>
+    <text x="625" y="873" fill="#80cbc4" font-size="11">frontend calls backend at "http://backend:5000/api"</text>
+  </g>
+
+  <!-- ================================== -->
+  <!-- FLOW ARROWS: Compose → services    -->
+  <!-- ================================== -->
+
+  <!-- Compose arrow down to volume -->
+  <line x1="200" y1="650" x2="200" y2="690" stroke="#ff9800" stroke-width="2" stroke-dasharray="4,3"/>
+  <!-- Compose arrow down to network -->
+  <line x1="900" y1="650" x2="900" y2="690" stroke="#00bcd4" stroke-width="2" stroke-dasharray="4,3"/>
+
+  <!-- Numbering badges -->
+  <!-- Top right legend -->
+  <g transform="translate(410, 310)">
+    <rect width="340" height="110" rx="10" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+    <text x="170" y="24" text-anchor="middle" fill="#8899bb" font-size="13" font-weight="700">THE FULL FLOW</text>
+
+    <circle cx="22" cy="46" r="9" fill="#f7931e"/><text x="22" y="50" text-anchor="middle" fill="#fff" font-size="9" font-weight="700">1</text>
+    <text x="38" y="50" fill="#ccc" font-size="11">Write a <tspan font-weight="700" fill="#f7931e">Dockerfile</tspan> (recipe instructions)</text>
+
+    <circle cx="22" cy="68" r="9" fill="#2496ed"/><text x="22" y="72" text-anchor="middle" fill="#fff" font-size="9" font-weight="700">2</text>
+    <text x="38" y="72" fill="#ccc" font-size="11"><tspan font-weight="700" fill="#64b5f6">docker build</tspan> → creates an <tspan font-weight="700" fill="#2496ed">Image</tspan> (with layers + tag)</text>
+
+    <circle cx="22" cy="90" r="9" fill="#00c853"/><text x="22" y="94" text-anchor="middle" fill="#fff" font-size="9" font-weight="700">3</text>
+    <text x="38" y="94" fill="#ccc" font-size="11"><tspan font-weight="700" fill="#69f0ae">docker run</tspan> → starts a <tspan font-weight="700" fill="#00c853">Container</tspan> (with ports, volumes, network)</text>
+  </g>
+
+</svg>

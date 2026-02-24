@@ -1,0 +1,27 @@
+services:
+  # MySQL Database (production)
+  db:
+    restart: always
+    # No exposed port — only accessible within backend-net
+
+  # Express Backend (production)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    restart: always
+    environment:
+      NODE_ENV: production
+    # Override: no bind mounts (code is baked into the image)
+    volumes: []
+
+  # React Frontend served by Nginx (production)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    restart: always
+    ports:
+      - "80:80"
+    # Override: no bind mounts (built assets served by nginx)
+    volumes: []
